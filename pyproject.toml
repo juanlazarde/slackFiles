@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slack-file-downloader"
+version = "0.2.0"
+description = "Download all files from Slack channels using the Slack API."
+authors = [{ name = "Juan Lazarde", email = "t2n50i7gqh@chefalicious.com" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9,<3.14"
+dependencies = [
+    "certifi>=2025.4.26,<2025.5.0",
+    "charset-normalizer>=3.4.2,<4.0.0",
+    "idna>=3.10,<4.0.0",
+    "pathvalidate>=3.2.3,<4.0.0",
+    "python-dotenv>=1.1.0,<2.0.0",
+    "requests>=2.32.3,<3.0.0",
+    "setuptools>=80.3.1,<81.0.0",
+    "slack_sdk>=3.35.0,<4.0.0",
+    "urllib3>=2.4.0,<3.0.0",
+    "wheel>=0.45.1,<1.0.0",
+]
+classifiers = [
+   "Development Status :: 4 - Beta",
+   "License :: OSI Approved :: MIT License",
+   "Programming Language :: Python :: 3",
+   "Programming Language :: Python :: 3.9",
+   "Programming Language :: Python :: 3.10",
+   "Programming Language :: Python :: 3.11",
+   "Programming Language :: Python :: 3.12",
+   "Programming Language :: Python :: 3.13",
+   "Topic :: Utilities",
+]
+keywords = ["slack", "file-downloader", "cli", "automation"]
+
+[project.optional-dependencies]
+dev = ["black", "mypy", "pytest"]
+
+[project.scripts]
+slackfiles = "slackFiles.app:main"
+
+[tool.setuptools.packages.find]
+include = ["slackFiles"]
+exclude = ["slack_downloads"]
+
+[tool.black]
+line-length = 120
+target-version = ['py313']

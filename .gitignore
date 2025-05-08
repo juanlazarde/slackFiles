@@ -1,0 +1,7 @@
+slack_downloads
+.venv
+.env
+__pycache__
+.vscode
+*.egg-info
+.DS_Store
