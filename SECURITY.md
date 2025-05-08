@@ -6,8 +6,8 @@ Only the latest released version of this project is currently supported.
 
 | Version | Supported |
 |---------|-----------|
-| latest  | ✅         |
-| older   | ❌         |
+| 3.13  | ✅         |
+| older untested   | ❌         |
 
 ## Reporting a Vulnerability
 
