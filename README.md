@@ -1,19 +1,20 @@
 # Slack File Downloader
 
-A robust Python CLI tool to download all files from your Slack workspace — across all public and private channels you are a member of.
+A robust Python CLI tool that downloads all files you have access to in your Slack workspace — from public and private channels, including Slack-hosted and external links.
 
 ---
 
 ## 📦 Features
 
-- ✅ Download files from all channels
+- ✅ Download files from all joined channels
 - 🗂 Organizes files by channel name
-- 🔁 Skips previously downloaded files (tracked by ID)
-- 📎 Supports Slack-hosted + external file URLs
-- 💤 Honors Slack's rate limits
-- 🧹 Sanitizes filenames
-- 🔐 Loads config from `.env`
-- 🧪 Modular and testable design
+- 🔁 Skips already-downloaded files using a tracker file
+- 🔗 Supports both Slack-hosted and external file URLs
+- 💤 Honors Slack's rate limits (with Retry-After support)
+- 🧼 Sanitizes filenames using `pathvalidate`
+- 🔐 Loads config from `.env` (or environment)
+- 🧪 Fully testable with unit and integration coverage
+- 📊 CLI output + optional JSON summary
 
 ---
 
@@ -29,25 +30,58 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-Alternatively, if hosted in Github:
+Or install directly from Github:
 
 ```bash
 pip install git+https://github.com/your-username/slack-file-downloader.git
 ```
 
-Create an `.env` file with:
+## 🛠 Configuration
 
-```bash
+Create a `.env` file with:
+
+```text
 SLACK_API_TOKEN=xoxp-your-slack-token
 DOWNLOAD_THROTTLE=0.3
 DEBUG_MODE=false
 ```
 
-## Usage
+> 💡 You must be a member of the channels you want to fetch files from.
+
+## 🔐 Required OAuth Scopes
+
+Make sure your Slack token has the following scopes:
+
+- `files:read`
+- `channels:history`
+- `groups:history`
+- `im:history`
+- `mpim:history`
+- `users:read`
+- `remote_files:read`
+
+Refer to [Slack’s API Scopes](https://api.slack.com/scopes) for how to attach these to your token.
+
+### How to Create a Slack API Token
+
+1. Go to <https://api.slack.com/apps>
+2. Click Create New App > From scratch.
+3. Give your app a name and select your workspace.
+4. Under OAuth & Permissions, add the required scopes listed above.
+5. Install the app to your workspace.
+6. After installation, you’ll find your OAuth Token under
+
+>💡 **OAuth Tokens for Your Workspace** start with `xoxp-`.
+>
+>💡 Make sure the app is installed by a user who is a member of all the channels you want to access.
+
+## 🧑‍💻 Usage
 
 ```bash
-slackfiles [options]
+slackfiles [-h] [options]
+```
 
+```text
 Options:
 ========
 --debug               Process only the first channel (for testing)
@@ -56,27 +90,19 @@ Options:
 --summary-json <file> Output summary stats to a JSON file
 ```
 
-## Output
+## 📁 Output
 
-Files are saved to:
+- Files saved to: `slack_downloads/<channel>/filename.ext`
+- Log file saved to: `slack_downloads/download.log`
+- ID tracker: `.downloaded_file_ids.txt` (to skip duplicates)
 
-```bash
-slack_downloads/<channel_name>/filename.ext
-```
-
-Log file is saved as:
-
-```bash
-slack_downloads/download.log
-```
-
-## Running Tests
+## 🧪 Running Tests
 
 ```bash
 python -m unittest discover tests
 ```
 
-## Development
+## 🧱 Development
 
 To add dependencies:
 
@@ -91,18 +117,6 @@ To run the script directly in debug mode:
 python -m slackFiles.app --debug
 ```
 
-## 🔐 Required OAuth Scopes
+## 📄 License
 
-Make sure your Slack token has the following scopes:
-
-- `files:read`
-- `channels:history`
-- `groups:history`
-- `im:history`
-- `mpim:history`
-- `users:read`
-- `remote_files:read`
-
-## License
-
-MIT © Juan Lazarde
+MIT © 2025 Juan Lazarde
